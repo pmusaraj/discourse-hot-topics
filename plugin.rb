@@ -41,7 +41,11 @@ after_initialize do
 
 			def hot_rating
 				if SiteSetting.hot_topics_only_op_likes
-					(self.hot_likes + self.hot_boost + (self.posts_count / 2)) / ((self.hot_time + 2) ** self.hot_gravity)
+					posts = self.posts_count
+					if (posts > 200)
+						posts = 200
+					end
+					(self.hot_likes + self.hot_boost + (posts / 2)) / ((self.hot_time + 2) ** self.hot_gravity)
 				else
 					(self.hot_likes + self.hot_boost) / ((self.hot_time + 2) ** self.hot_gravity)
 				end
