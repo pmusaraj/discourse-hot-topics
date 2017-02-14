@@ -14,3 +14,6 @@ plugins:
   hot_topics_only_op_likes:
     default: false
     client: true
+  hot_topics_include_replies:
+    default: false
+    client: true

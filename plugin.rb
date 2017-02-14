@@ -40,7 +40,11 @@ after_initialize do
 			end
 
 			def hot_rating
-				(self.hot_likes + self.hot_boost) / ((self.hot_time + 2) ** self.hot_gravity)
+				if SiteSetting.hot_topics_only_op_likes
+					(self.hot_likes + self.hot_boost + (self.posts_count / 2)) / ((self.hot_time + 2) ** self.hot_gravity)
+				else
+					(self.hot_likes + self.hot_boost) / ((self.hot_time + 2) ** self.hot_gravity)
+				end
 			end
 
 			def hot_rating_custom
@@ -102,7 +106,7 @@ after_initialize do
 
         def execute(args)
           Topic.where(closed: false, archetype: 'regular').find_each do |topic|
-            topic.custom_fields['upvote_hot'] = (topic.hot_rating * 1000000000).to_i
+            topic.custom_fields['upvote_hot'] = (topic.hot_rating * 10000000).to_i
             topic.save
           end
         end
