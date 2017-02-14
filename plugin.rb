@@ -105,7 +105,7 @@ after_initialize do
         every SiteSetting.hot_topics_calc_period.minutes
 
         def execute(args)
-          Topic.where(closed: false, archetype: 'regular').find_each do |topic|
+          Topic.where(archetype: 'regular').find_each do |topic|
             topic.custom_fields['upvote_hot'] = (topic.hot_rating * 10000000).to_i
             topic.save
           end
